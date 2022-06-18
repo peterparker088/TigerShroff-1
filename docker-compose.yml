@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+   shop:
+    build: .
+    environment:
+      API_ID: $API_ID
+      API_HASH: $API_HASH
+      BOT_TOKEN: $BOT_TOKEM
+      DATABASE_URI: $DATABASE_URI
+      CHANNELS: $CHANNELS
+      DATABASE_NAME: $DATABASE_NAME
+      ADMINS: $ADMINS
+      LOG_CHANNEL: $LOG_CHANNEL
