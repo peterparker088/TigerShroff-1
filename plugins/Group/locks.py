@@ -39,7 +39,7 @@ async def lock_perm(c: Client, m: Message):
     chat_id = m.chat.id
 
     if not lock_type:
-        await m.reply_text(tlang(m, "locks.locks_perm_sp"))
+        await m.reply_text("locked 🔐")
         return
 
     get_perm = m.chat.permissions
@@ -60,8 +60,8 @@ async def lock_perm(c: Client, m: Message):
         except ChatNotModified:
             pass
         except ChatAdminRequired:
-            await m.reply_text(tlang(m, "general.no_perm_admin"))
-        await m.reply_text("🔒 " + (tlang(m, "locks.lock_all")))
+            await m.reply_text("Ehh no  permission :)")
+        await m.reply_text("locked all 🔐")
         await prevent_approved(m)
         return
 
@@ -110,9 +110,8 @@ async def lock_perm(c: Client, m: Message):
         perm = "pin"
 
     else:
-        await m.reply_text(tlang(m, "locks.invalid_lock"))
+        await m.reply_text("Invalid lock type!")
         return
-
     try:
         await c.set_chat_permissions(
             chat_id,
@@ -131,13 +130,12 @@ async def lock_perm(c: Client, m: Message):
     except ChatNotModified:
         pass
     except ChatAdminRequired:
-        await m.reply_text(tlang(m, "general.no_perm_admin"))
+        await m.reply_text("I don't have a permission")
     await m.reply_text(
-        "🔒 " + (tlang(m, "locks.locked_perm").format(perm=perm)),
+        "Locked {} for this chat".format(perm),
     )
     await prevent_approved(m)
     return
-
 
 @Client.on_message(command("locks") & restrict_filter)
 async def view_locks(_, m: Message):
@@ -174,7 +172,7 @@ async def view_locks(_, m: Message):
             await chkmsg.edit_text(permission_view_str)
 
         except RPCError as e_f:
-            await chkmsg.edit_text(tlang(m, "general.something_wrong"))
+            await chkmsg.edit_text("Something went wrong")
             await m.reply_text(e_f)
     return
 
@@ -210,8 +208,8 @@ async def unlock_perm(c: Client, m: Message):
         except ChatNotModified:
             pass
         except ChatAdminRequired:
-            await m.reply_text(tlang(m, "general.no_perm_admin"))
-        await m.reply_text("🔓 " + (tlang(m, "locks.unlock_all")))
+            await m.reply_text("I'm not Admin!")
+        await m.reply_text("Unlock all 🔓")
         await prevent_approved(m)
         return
 
@@ -271,7 +269,7 @@ async def unlock_perm(c: Client, m: Message):
         uperm = "pin"
 
     else:
-        await m.reply_text(tlang(m, "locks.invalid_lock"))
+        await m.reply_text("Invalid lock type!")
         return
 
     try:
@@ -294,9 +292,9 @@ async def unlock_perm(c: Client, m: Message):
     except ChatNotModified:
         pass
     except ChatAdminRequired:
-        await m.reply_text(tlang(m, "general.no_perm_admin"))
+        await m.reply_text("I'm not Admin!")
     await m.reply_text(
-        "🔓 " + (tlang(m, "locks.unlocked_perm").format(uperm=uperm)),
+        "Unlocked {} for this chat.".format(uperm),
     )
     await prevent_approved(m)
     return
@@ -313,6 +311,7 @@ async def prevent_approved(m: Message):
         LOGGER.info(f"Approved {i} in {m.chat.id}")
         await sleep(0.1)
     return
+
 
 
 __PLUGIN__ = "locks"
